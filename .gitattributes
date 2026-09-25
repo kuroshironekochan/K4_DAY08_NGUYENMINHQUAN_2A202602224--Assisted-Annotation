@@ -1,0 +1,2 @@
+* text=auto
+data/test/labels/*.txt text eol=lf

@@ -1,0 +1,11 @@
+# Vì sao chọn lô này?
+
+Trong 50 dòng đứng đầu `outputs/selection_round1.csv`, chọn năm frame bạn sẽ ưu tiên nếu chỉ có
+ngân sách rà năm ảnh. Ghi tên, điểm, thời điểm, thứ tự và lý do; tối thiểu một quyết định phải xét
+ảnh gần trùng hoặc trường hợp model không dự đoán được box: Nếu chỉ được sửa 5 ảnh, tôi chọn frame_0182.jpg (hạng 1, điểm 0.9591, t = 72.8s), frame_0369.jpg (hạng 2, điểm 0.9324, t = 147.6s), frame_0380.jpg (hạng 3, điểm 0.9170, t = 152.0s), frame_0326.jpg (hạng 4, điểm 0.9155, t = 130.4s) và frame_0331.jpg (hạng 5, điểm 0.9154, t = 132.4s). Năm ảnh này đứng đầu danh sách về độ bất định. Tôi cân nhắc không chọn frame_0187.jpg (hạng 10, t = 74.8s) vì nó cách frame_0182.jpg chỉ 2 giây, bối cảnh giao thông gần như trùng lặp, nên ưu tiên giữ frame_0182.jpg có điểm cao nhất để tối ưu ngân sách rà nhãn.
+
+Ba frame thuộc lô 12 ảnh model chọn và bằng chứng trong CSV/ảnh contact sheet: Trong 12 ảnh AI đã chọn, tôi nhìn frame_0182.jpg (hạng 1, điểm 0.9591), frame_0099.jpg (hạng 8, điểm 0.9063) và frame_0107.jpg (hạng 14, điểm 0.8876). Bằng chứng trong file CSV cho thấy cả ba đều có điểm bất định U rất cao (từ 0.875 đến 0.946) và số lượng khung hình phân vân n_ambiguous lớn (từ 14 đến 18 box). Trên thực tế, đây là những khung cảnh ban đêm phức tạp với mật độ xe đông, nhiều xe bị khuất hoặc chìm trong vùng tối khiến mô hình ban đầu dự đoán thiếu chắc chắn.
+
+Một frame có điểm cao nhưng không chọn hoặc một frame có điểm thấp vẫn nên xem, và lý do: frame_0372.jpg có hạng 6 với điểm rất cao 0.9101, cao hơn nhiều ảnh trong lô được chọn như frame_0312.jpg hay frame_0099.jpg, nhưng mô hình bỏ qua (selected = False). Lý do là vì nó ở thời điểm 148.8s, cách frame_0369.jpg (147.6s) chỉ 1.2 giây, vi phạm ràng buộc khoảng cách tối thiểu giữa các frame (min_gap_s = 2.0s). Do hai ảnh gần như cùng một cảnh, việc bỏ qua giúp tránh tốn công sửa nhãn trùng lặp mà không học thêm được nhiều tri thức mới.
+
+Điều phép chọn này chưa chứng minh về chất lượng mô hình: Điểm cao trong thuật toán chọn mẫu chỉ phản ánh rằng mô hình đang phân vân hoặc chưa tự tin về dự đoán ở các vùng ảnh đó. Nó chưa thể chứng minh rằng việc con người sửa xong các ảnh này thì mô hình huấn luyện lại chắc chắn sẽ tổng quát hóa tốt hơn hay đạt độ chính xác cao hơn trên toàn bộ tập dữ liệu thực tế.

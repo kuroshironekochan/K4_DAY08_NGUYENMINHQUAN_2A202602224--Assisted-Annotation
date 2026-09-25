@@ -1,0 +1,8 @@
+round,frame_id,object,action,rule_or_reason
+1,frame_0099.jpg,xe bị ẩn 1 phần sau vật cản,added,Chỉ khoanh phần thân xe nằm trong ảnh theo quy tắc
+1,frame_0187.jpg,phân biệt nhầm biển báo với xe,deleted, ánh sáng phản chiếu từ biển báo nên xóa khung
+1,frame_0187.jpg,xe bị cắt méo ảnh,added, chỉ khoanh phần thân xe còn nhìn thấy
+1,frame_0270.jpg,xe tải,added, chỉ khoanh phần thân xe nằm trong ảnh theo quy tắc
+1,frame_0331.jpg,nhận diện nhầm vệt sáng thành xe,deleted, ánh sáng đèn xe khác thành 1 xe
+1,frame_0392.jpg,xe bus,added, chỉ khoanh phần xe bus nằm trong ảnh theo quy tắc
+
